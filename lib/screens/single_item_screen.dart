@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:like_button/like_button.dart';
 //ignore: must_be_immutable
 
 class SingleItemScreen extends StatelessWidget {
@@ -134,6 +135,42 @@ class SingleItemScreen extends StatelessWidget {
                                 image: AssetImage("gif/$img.gif"),
                               ),
                             ),
+
+                            //AnimatedWidgetIcon(),
+
+                            Column(
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.only(bottom: 8),
+                                  child: Text("Add your favorite!",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      )),
+                                ),
+                                Container(
+                                  // padding: EdgeInsets.all(1),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFE57734),
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
+                                  child: LikeButton(
+                                    size: 70,
+                                    animationDuration:
+                                        const Duration(milliseconds: 1000),
+                                    likeBuilder: (isTapped) {
+                                      return Icon(
+                                        Icons.bookmark,
+                                        color: isTapped
+                                            ? Colors.yellow.shade500
+                                            : Colors.white,
+                                        size: 50,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            /*
                             Container(
                               padding: EdgeInsets.all(20),
                               decoration: BoxDecoration(
@@ -145,6 +182,8 @@ class SingleItemScreen extends StatelessWidget {
                                 color: Colors.white,
                               ),
                             ),
+
+                             */
                           ],
                         ),
                       ),

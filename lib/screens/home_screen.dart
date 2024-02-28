@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:howsmycoffee/screens/info_of_coffee.dart';
 import 'package:howsmycoffee/widgets/hot_coffee.dart';
 
 import '../widgets/cold_coffee.dart';
@@ -53,9 +54,14 @@ class _HomeScreenState extends State<HomeScreen>
                       ),
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => InfoOfCoffee()));
+                      },
                       child: Icon(
-                        Icons.notifications,
+                        Icons.question_mark_rounded,
                         color: Colors.white.withOpacity(0.5),
                         size: 35,
                       ),
@@ -72,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen>
                   "It's a Great Day for Coffee",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 30,
+                    fontSize: 27,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
