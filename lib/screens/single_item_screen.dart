@@ -1,15 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:like_button/like_button.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/favorite_provider.dart';
 //ignore: must_be_immutable
 
 class SingleItemScreen extends StatelessWidget {
-  String img;
-  String desc;
+  int i;
+
   SingleItemScreen(
-    this.img,
-    this.desc,
+    this.i,
   );
+
+  List<Item> coffee = [
+    Item(
+      'Latte',
+      'Step 1: Brew two shots of espresso (about 2 ounces) using an espresso machine. Pour into a cup or mug.\n'
+          'Step 2: Steam 1/2 cup milk to 150 F.  Transfer the milk to a glass measuring cup and tap it on the counter a few times to break up any large bubbles.\n'
+          'Step 3: Pour the steamed milk over the espresso, using a spoon to hold back the foam.\n'
+          'Step 4: Top off the drink with the reserved foam. If you’re feeling fancy, you can use the foam to create latte art.\n',
+    ),
+    Item('Espresso', '2espresso'),
+    Item('Americano', '3'),
+    Item('Ice Latte', '4'),
+    Item('Cappuiccino', '5'),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +53,7 @@ class SingleItemScreen extends StatelessWidget {
                 ),
                 Center(
                   child: Image.asset(
-                    "images/$img.png",
+                    "images/${coffee[i].name}.png",
                     width: MediaQuery.of(context).size.width / 1.2,
                   ),
                 ),
@@ -61,7 +76,7 @@ class SingleItemScreen extends StatelessWidget {
                         height: 20,
                       ),
                       Text(
-                        img,
+                        coffee[i].name,
                         style: const TextStyle(
                           fontSize: 30,
                           letterSpacing: 1,
@@ -102,7 +117,7 @@ class SingleItemScreen extends StatelessWidget {
                         height: 25,
                       ),
                       Text(
-                        desc,
+                        coffee[i].desc,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -132,7 +147,7 @@ class SingleItemScreen extends StatelessWidget {
                               height: 200,
                               width: 200,
                               child: Image(
-                                image: AssetImage("gif/$img.gif"),
+                                image: AssetImage("gif/${coffee[i].name}.gif"),
                               ),
                             ),
 
@@ -147,25 +162,37 @@ class SingleItemScreen extends StatelessWidget {
                                         color: Colors.white,
                                       )),
                                 ),
-                                Container(
-                                  // padding: EdgeInsets.all(1),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFE57734),
-                                    borderRadius: BorderRadius.circular(18),
-                                  ),
-                                  child: LikeButton(
-                                    size: 70,
-                                    animationDuration:
-                                        const Duration(milliseconds: 1000),
-                                    likeBuilder: (isTapped) {
-                                      return Icon(
-                                        Icons.bookmark,
-                                        color: isTapped
-                                            ? Colors.yellow.shade500
-                                            : Colors.white,
-                                        size: 50,
-                                      );
-                                    },
+                                GestureDetector(
+                                  onTap: () {
+                                    if (Provider.of<FavouriteProvider>(context,
+                                            listen: false)
+                                        .items
+                                        .contains(coffee[i])) {
+                                      Provider.of<FavouriteProvider>(context,
+                                              listen: false)
+                                          .removeItem(coffee[i]);
+                                    } else {
+                                      Provider.of<FavouriteProvider>(context,
+                                              listen: false)
+                                          .addItem(coffee[i]);
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: 40,
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFFE57734),
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: Icon(
+                                      Provider.of<FavouriteProvider>(context,
+                                                  listen: true)
+                                              .items
+                                              .contains(coffee[i])
+                                          ? Icons.favorite_outlined
+                                          : Icons.favorite_outline,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
                               ],

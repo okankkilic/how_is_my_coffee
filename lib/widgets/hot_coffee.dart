@@ -48,8 +48,9 @@ class HotCoffeeWidget extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                SingleItemScreen(img[i], desc[i])));
+                            builder: (context) => SingleItemScreen(
+                                  i,
+                                )));
                   },
                   child: Container(
                     margin: const EdgeInsets.all(10),
@@ -109,8 +110,9 @@ class HotCoffeeWidget extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        SingleItemScreen(img[i], desc[i])));
+                                    builder: (context) => SingleItemScreen(
+                                          i,
+                                        )));
                           },
                           child: Container(
                             padding: EdgeInsets.all(5),

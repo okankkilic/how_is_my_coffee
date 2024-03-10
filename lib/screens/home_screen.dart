@@ -136,6 +136,7 @@ class _HomeScreenState extends State<HomeScreen>
               Center(
                 child: [
                   ItemsWidget(),
+                  FavoritePage(),
                   HotCoffeeWidget(),
                   ColdCoffeeWidget(),
                 ][_tabController.index],
