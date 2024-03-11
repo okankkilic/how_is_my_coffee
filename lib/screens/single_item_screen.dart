@@ -5,13 +5,18 @@ import 'package:provider/provider.dart';
 import '../provider/favorite_provider.dart';
 //ignore: must_be_immutable
 
-class SingleItemScreen extends StatelessWidget {
+class SingleItemScreen extends StatefulWidget {
   int i;
 
   SingleItemScreen(
     this.i,
   );
 
+  @override
+  State<SingleItemScreen> createState() => _SingleItemScreenState();
+}
+
+class _SingleItemScreenState extends State<SingleItemScreen> {
   List<Item> coffee = [
     Item(
       'Latte',
@@ -53,7 +58,7 @@ class SingleItemScreen extends StatelessWidget {
                 ),
                 Center(
                   child: Image.asset(
-                    "images/${coffee[i].name}.png",
+                    "images/${coffee[widget.i].name}.png",
                     width: MediaQuery.of(context).size.width / 1.2,
                   ),
                 ),
@@ -76,7 +81,7 @@ class SingleItemScreen extends StatelessWidget {
                         height: 20,
                       ),
                       Text(
-                        coffee[i].name,
+                        coffee[widget.i].name,
                         style: const TextStyle(
                           fontSize: 30,
                           letterSpacing: 1,
@@ -117,7 +122,7 @@ class SingleItemScreen extends StatelessWidget {
                         height: 25,
                       ),
                       Text(
-                        coffee[i].desc,
+                        coffee[widget.i].desc,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -147,7 +152,8 @@ class SingleItemScreen extends StatelessWidget {
                               height: 200,
                               width: 200,
                               child: Image(
-                                image: AssetImage("gif/${coffee[i].name}.gif"),
+                                image: AssetImage(
+                                    "gif/${coffee[widget.i].name}.gif"),
                               ),
                             ),
 
@@ -162,38 +168,37 @@ class SingleItemScreen extends StatelessWidget {
                                         color: Colors.white,
                                       )),
                                 ),
-                                GestureDetector(
-                                  onTap: () {
-                                    if (Provider.of<FavouriteProvider>(context,
-                                            listen: false)
-                                        .items
-                                        .contains(coffee[i])) {
-                                      Provider.of<FavouriteProvider>(context,
-                                              listen: false)
-                                          .removeItem(coffee[i]);
-                                    } else {
-                                      Provider.of<FavouriteProvider>(context,
-                                              listen: false)
-                                          .addItem(coffee[i]);
-                                    }
+                                Consumer<FavouriteProvider>(
+                                  builder: (context, favouriteProvider, child) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        if (favouriteProvider.items
+                                            .contains(coffee[widget.i])) {
+                                          favouriteProvider
+                                              .removeItem(coffee[widget.i]);
+                                        } else {
+                                          favouriteProvider
+                                              .addItem(coffee[widget.i]);
+                                        }
+                                      },
+                                      child: Container(
+                                        height: 40,
+                                        width: 40,
+                                        decoration: BoxDecoration(
+                                          color: Color(0xFFE57734),
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                        child: Icon(
+                                          favouriteProvider.items
+                                                  .contains(coffee[widget.i])
+                                              ? Icons.favorite_outlined
+                                              : Icons.favorite_outline,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    );
                                   },
-                                  child: Container(
-                                    height: 40,
-                                    width: 40,
-                                    decoration: BoxDecoration(
-                                      color: Color(0xFFE57734),
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    child: Icon(
-                                      Provider.of<FavouriteProvider>(context,
-                                                  listen: true)
-                                              .items
-                                              .contains(coffee[i])
-                                          ? Icons.favorite_outlined
-                                          : Icons.favorite_outline,
-                                      color: Colors.white,
-                                    ),
-                                  ),
                                 ),
                               ],
                             ),

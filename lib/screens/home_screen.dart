@@ -4,6 +4,7 @@ import 'package:howsmycoffee/widgets/hot_coffee.dart';
 
 import '../widgets/cold_coffee.dart';
 import '../widgets/items.widget.dart';
+import 'favorite_coffee_page.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen>
   late TabController _tabController;
   @override
   void initState() {
-    _tabController = TabController(length: 3, vsync: this, initialIndex: 0);
+    _tabController = TabController(length: 4, vsync: this, initialIndex: 0);
     _tabController.addListener(_handleTabSelection);
     super.initState();
   }
@@ -122,6 +123,9 @@ class _HomeScreenState extends State<HomeScreen>
                   tabs: const [
                     Tab(
                       text: "All Coffee",
+                    ),
+                    Tab(
+                      text: "Favorite Coffee",
                     ),
                     Tab(
                       text: "Hot Coffee",
