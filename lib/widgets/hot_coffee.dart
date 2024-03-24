@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../screens/single_item_screen.dart';
+import 'items.widget.dart';
 
 //ignore: must_be_immutable
 class HotCoffeeWidget extends StatelessWidget {
@@ -45,12 +45,8 @@ class HotCoffeeWidget extends StatelessWidget {
               child: Column(children: [
                 InkWell(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SingleItemScreen(
-                                  i,
-                                )));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => ItemsWidget()));
                   },
                   child: Container(
                     margin: const EdgeInsets.all(10),
@@ -110,9 +106,7 @@ class HotCoffeeWidget extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => SingleItemScreen(
-                                          i,
-                                        )));
+                                    builder: (context) => ItemsWidget()));
                           },
                           child: Container(
                             padding: EdgeInsets.all(5),

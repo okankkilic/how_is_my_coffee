@@ -3,33 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/favorite_provider.dart';
-//ignore: must_be_immutable
 
-class SingleItemScreen extends StatefulWidget {
-  int i;
+class SingleItemScreen extends StatelessWidget {
+  final Item item;
 
-  SingleItemScreen(
-    this.i,
-  );
-
-  @override
-  State<SingleItemScreen> createState() => _SingleItemScreenState();
-}
-
-class _SingleItemScreenState extends State<SingleItemScreen> {
-  List<Item> coffee = [
-    Item(
-      'Latte',
-      'Step 1: Brew two shots of espresso (about 2 ounces) using an espresso machine. Pour into a cup or mug.\n'
-          'Step 2: Steam 1/2 cup milk to 150 F.  Transfer the milk to a glass measuring cup and tap it on the counter a few times to break up any large bubbles.\n'
-          'Step 3: Pour the steamed milk over the espresso, using a spoon to hold back the foam.\n'
-          'Step 4: Top off the drink with the reserved foam. If you’re feeling fancy, you can use the foam to create latte art.\n',
-    ),
-    Item('Espresso', '2espresso'),
-    Item('Americano', '3'),
-    Item('Ice Latte', '4'),
-    Item('Cappuiccino', '5'),
-  ];
+  SingleItemScreen(this.item);
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +36,7 @@ class _SingleItemScreenState extends State<SingleItemScreen> {
                 ),
                 Center(
                   child: Image.asset(
-                    "images/${coffee[widget.i].name}.png",
+                    "images/${item.name}.png",
                     width: MediaQuery.of(context).size.width / 1.2,
                   ),
                 ),
@@ -66,7 +44,7 @@ class _SingleItemScreenState extends State<SingleItemScreen> {
                   height: 50,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 25, right: 40),
+                  padding: const EdgeInsets.only(left: 25, right: 40),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -81,7 +59,7 @@ class _SingleItemScreenState extends State<SingleItemScreen> {
                         height: 20,
                       ),
                       Text(
-                        coffee[widget.i].name,
+                        item.name,
                         style: const TextStyle(
                           fontSize: 30,
                           letterSpacing: 1,
@@ -91,13 +69,13 @@ class _SingleItemScreenState extends State<SingleItemScreen> {
                       const SizedBox(
                         height: 25,
                       ),
-                      Container(
+                      SizedBox(
                         width: MediaQuery.of(context).size.width,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              padding: EdgeInsets.all(15),
+                              padding: const EdgeInsets.all(15),
                               width: 120,
                               decoration: BoxDecoration(
                                 border: Border.all(
@@ -122,7 +100,7 @@ class _SingleItemScreenState extends State<SingleItemScreen> {
                         height: 25,
                       ),
                       Text(
-                        coffee[widget.i].desc,
+                        item.desc,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -143,7 +121,7 @@ class _SingleItemScreenState extends State<SingleItemScreen> {
                       const SizedBox(
                         height: 30,
                       ),
-                      Container(
+                      SizedBox(
                         width: MediaQuery.of(context).size.width,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -152,13 +130,10 @@ class _SingleItemScreenState extends State<SingleItemScreen> {
                               height: 200,
                               width: 200,
                               child: Image(
-                                image: AssetImage(
-                                    "gif/${coffee[widget.i].name}.gif"),
+                                image: AssetImage("gif/${item.name}.gif"),
                               ),
                             ),
-
                             //AnimatedWidgetIcon(),
-
                             Column(
                               children: [
                                 const Padding(
@@ -173,25 +148,22 @@ class _SingleItemScreenState extends State<SingleItemScreen> {
                                     return GestureDetector(
                                       onTap: () {
                                         if (favouriteProvider.items
-                                            .contains(coffee[widget.i])) {
-                                          favouriteProvider
-                                              .removeItem(coffee[widget.i]);
+                                            .contains(item)) {
+                                          favouriteProvider.removeItem(item);
                                         } else {
-                                          favouriteProvider
-                                              .addItem(coffee[widget.i]);
+                                          favouriteProvider.addItem(item);
                                         }
                                       },
                                       child: Container(
                                         height: 40,
                                         width: 40,
                                         decoration: BoxDecoration(
-                                          color: Color(0xFFE57734),
+                                          color: const Color(0xFFE57734),
                                           borderRadius:
                                               BorderRadius.circular(5),
                                         ),
                                         child: Icon(
-                                          favouriteProvider.items
-                                                  .contains(coffee[widget.i])
+                                          favouriteProvider.items.contains(item)
                                               ? Icons.favorite_outlined
                                               : Icons.favorite_outline,
                                           color: Colors.white,
@@ -202,20 +174,6 @@ class _SingleItemScreenState extends State<SingleItemScreen> {
                                 ),
                               ],
                             ),
-                            /*
-                            Container(
-                              padding: EdgeInsets.all(20),
-                              decoration: BoxDecoration(
-                                color: Color(0xFFE57734),
-                                borderRadius: BorderRadius.circular(18),
-                              ),
-                              child: const Icon(
-                                Icons.favorite_outline,
-                                color: Colors.white,
-                              ),
-                            ),
-
-                             */
                           ],
                         ),
                       ),
