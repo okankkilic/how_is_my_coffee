@@ -5,11 +5,17 @@ import 'package:provider/provider.dart';
 
 import '../provider/favorite_provider.dart';
 
-class FavoritePage extends StatelessWidget {
+class FavoritePage extends StatefulWidget {
   const FavoritePage({super.key});
 
   @override
+  State<FavoritePage> createState() => _FavoritePageState();
+}
+
+class _FavoritePageState extends State<FavoritePage> {
+  @override
   Widget build(BuildContext context) {
+    final favouriteProvider = Provider.of<FavouriteProvider>(context);
     return SingleChildScrollView(
       child: GridView.count(
         physics: const NeverScrollableScrollPhysics(),
@@ -43,8 +49,8 @@ class FavoritePage extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  SingleItemScreen(cart.items[index])));
+                              builder: (context) => SingleItemScreen(
+                                  id: index, item: cart.items[index])));
                     },
                     child: Container(
                       margin: const EdgeInsets.all(10),
@@ -104,8 +110,8 @@ class FavoritePage extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          SingleItemScreen(cart.items[index])));
+                                      builder: (context) => SingleItemScreen(
+                                          id: index, item: cart.items[index])));
                             },
                             child: Container(
                               padding: EdgeInsets.all(5),

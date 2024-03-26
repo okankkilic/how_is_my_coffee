@@ -1,39 +1,52 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../provider/favorite_provider.dart';
 import '../screens/single_item_screen.dart';
 
 //ignore: must_be_immutable
-class ItemsWidget extends StatelessWidget {
-  ItemsWidget({
+class ItemsWidget extends StatefulWidget {
+  const ItemsWidget({
     super.key,
   });
 
+  @override
+  State<ItemsWidget> createState() => _ItemsWidgetState();
+}
+
+class _ItemsWidgetState extends State<ItemsWidget> {
   List<Item> coffee = [
     Item(
-      'Latte',
-      'Step 1: Brew two shots of espresso (about 2 ounces) using an espresso machine. Pour into a cup or mug.\n'
+      id: 0,
+      name: 'Latte',
+      desc:
+          'Step 1: Brew two shots of espresso (about 2 ounces) using an espresso machine. Pour into a cup or mug.\n'
           'Step 2: Steam 1/2 cup milk to 150 F.  Transfer the milk to a glass measuring cup and tap it on the counter a few times to break up any large bubbles.\n'
           'Step 3: Pour the steamed milk over the espresso, using a spoon to hold back the foam.\n'
           'Step 4: Top off the drink with the reserved foam. If you’re feeling fancy, you can use the foam to create latte art.\n',
     ),
-    Item('Espresso', '2espresso'),
-    Item('Americano', '3'),
-    Item('Ice Latte', '4'),
-    Item('Cappuiccino', '5'),
+    Item(id: 1, name: 'Espresso', desc: '25555espresso'),
+    Item(id: 2, name: 'Americano', desc: '3'),
+    Item(id: 3, name: 'Ice Latte', desc: '4'),
+    Item(id: 4, name: 'Cappuiccino', desc: '5'),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      physics: const NeverScrollableScrollPhysics(),
-      crossAxisCount: 2,
-      shrinkWrap: true,
-      childAspectRatio: (150 / 195),
-      children: [
-        for (int i = 0; i < coffee.length; i++)
-          Container(
+    final favouriteProvider = Provider.of<FavouriteProvider>(context);
+    return GridView.builder(
+        key: UniqueKey(),
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, // İki sütunlu bir grid oluşturur
+          childAspectRatio: (150 / 195),
+        ),
+        itemCount: coffee.length,
+        itemBuilder: (context, index) {
+          //final item = coffee[i];
+          return Container(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
               margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 13),
               decoration: BoxDecoration(
@@ -54,13 +67,14 @@ class ItemsWidget extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => SingleItemScreen(
-                                  coffee[i],
+                                  id: index,
+                                  item: coffee[index],
                                 )));
                   },
                   child: Container(
                     margin: const EdgeInsets.all(10),
                     child: Image.asset(
-                      "images/${coffee[i].name}.png",
+                      "images/${coffee[index].name}.png",
                       width: 120,
                       height: 120,
                       fit: BoxFit.contain,
@@ -75,7 +89,7 @@ class ItemsWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          coffee[i].name,
+                          coffee[index].name,
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -115,8 +129,8 @@ class ItemsWidget extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        SingleItemScreen(coffee[i])));
+                                    builder: (context) => SingleItemScreen(
+                                        id: index, item: coffee[index])));
                           },
                           child: Container(
                             padding: const EdgeInsets.all(5),
@@ -133,8 +147,7 @@ class ItemsWidget extends StatelessWidget {
                         )
                       ],
                     ))
-              ]))
-      ],
-    );
+              ]));
+        });
   }
 }

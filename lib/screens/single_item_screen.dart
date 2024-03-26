@@ -4,11 +4,17 @@ import 'package:provider/provider.dart';
 
 import '../provider/favorite_provider.dart';
 
-class SingleItemScreen extends StatelessWidget {
+class SingleItemScreen extends StatefulWidget {
+  final int id;
   final Item item;
 
-  SingleItemScreen(this.item);
+  SingleItemScreen({required this.item, required this.id});
 
+  @override
+  State<SingleItemScreen> createState() => _SingleItemScreenState();
+}
+
+class _SingleItemScreenState extends State<SingleItemScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +42,7 @@ class SingleItemScreen extends StatelessWidget {
                 ),
                 Center(
                   child: Image.asset(
-                    "images/${item.name}.png",
+                    "images/${widget.item.name}.png",
                     width: MediaQuery.of(context).size.width / 1.2,
                   ),
                 ),
@@ -59,7 +65,7 @@ class SingleItemScreen extends StatelessWidget {
                         height: 20,
                       ),
                       Text(
-                        item.name,
+                        widget.item.name,
                         style: const TextStyle(
                           fontSize: 30,
                           letterSpacing: 1,
@@ -100,7 +106,7 @@ class SingleItemScreen extends StatelessWidget {
                         height: 25,
                       ),
                       Text(
-                        item.desc,
+                        widget.item.desc,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -130,7 +136,8 @@ class SingleItemScreen extends StatelessWidget {
                               height: 200,
                               width: 200,
                               child: Image(
-                                image: AssetImage("gif/${item.name}.gif"),
+                                image:
+                                    AssetImage("gif/${widget.item.name}.gif"),
                               ),
                             ),
                             //AnimatedWidgetIcon(),
@@ -143,34 +150,37 @@ class SingleItemScreen extends StatelessWidget {
                                         color: Colors.white,
                                       )),
                                 ),
-                                Consumer<FavouriteProvider>(
-                                  builder: (context, favouriteProvider, child) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        if (favouriteProvider.items
-                                            .contains(item)) {
-                                          favouriteProvider.removeItem(item);
-                                        } else {
-                                          favouriteProvider.addItem(item);
-                                        }
-                                      },
-                                      child: Container(
-                                        height: 40,
-                                        width: 40,
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFFE57734),
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                        ),
-                                        child: Icon(
-                                          favouriteProvider.items.contains(item)
-                                              ? Icons.favorite_outlined
-                                              : Icons.favorite_outline,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    );
+                                GestureDetector(
+                                  onTap: () {
+                                    final favouriteProvider =
+                                        Provider.of<FavouriteProvider>(context,
+                                            listen: false);
+                                    if (favouriteProvider.items
+                                        .contains(widget.item)) {
+                                      favouriteProvider.removeItem(
+                                          widget.item.id, widget.item);
+                                    } else {
+                                      favouriteProvider.addItem(
+                                          widget.item.id, widget.item);
+                                    }
                                   },
+                                  child: Container(
+                                    height: 40,
+                                    width: 40,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFE57734),
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: Icon(
+                                      Provider.of<FavouriteProvider>(context,
+                                                  listen: true)
+                                              .items
+                                              .contains(widget.item)
+                                          ? Icons.favorite_outlined
+                                          : Icons.favorite_outline,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
