@@ -17,6 +17,7 @@ class SingleItemScreen extends StatefulWidget {
 class _SingleItemScreenState extends State<SingleItemScreen> {
   @override
   Widget build(BuildContext context) {
+    final favouriteProvider = Provider.of<FavouriteProvider>(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
